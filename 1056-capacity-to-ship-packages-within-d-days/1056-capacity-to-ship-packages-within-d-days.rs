@@ -1,7 +1,7 @@
 impl Solution {
     pub fn ship_within_days(weights: Vec<i32>, days: i32) -> i32 {
         let mut lo=*weights.iter().max().unwrap_or(&1);
-        let mut hi = weights.iter().sum();
+        let mut hi = 25*1000000;
         while lo<hi{
             let mid = lo+(hi-lo)/2;
             let mut cnt=1;
