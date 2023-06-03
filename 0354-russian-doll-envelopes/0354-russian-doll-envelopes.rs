@@ -6,11 +6,15 @@ impl Solution {
         });
         let mut LIS = vec![];
         for env in envelopes.iter(){
-            if LIS.is_empty()||env[1] > LIS[LIS.len() - 1] {
+            if LIS.is_empty() {
                 LIS.push(env[1]);
             }else{
                 let idx = LIS.partition_point(|&x|x<env[1]);             
-                LIS[idx]= env[1];                
+                if idx==LIS.len(){
+                    LIS.push(env[1]);
+                }else{
+                    LIS[idx]= env[1];                
+                }
             }
         }
         return LIS.len() as i32
