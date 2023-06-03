@@ -4,14 +4,13 @@ impl Solution {
         let mut hi = 25*1000000;
         while lo<hi{
             let mid = lo+(hi-lo)/2;
-            let mut cnt=1;
-            let mut sum=0;
-            weights.iter().for_each(|&x|{
-                sum+=x;
-                if sum>mid{
-                    sum=x;
-                    cnt+=1;
-                }
+            
+            let (cnt, _)=weights.iter().fold((1,0),|(cnt,sum),&x|{
+               if sum+x>mid{
+                   (cnt+1,x)
+               }else{
+                   (cnt,sum+x)
+               }
             });
             //용량을 줄이면 날짜가 늘고
             //용량을 늘리면 날짜가 줌
