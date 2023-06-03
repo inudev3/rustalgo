@@ -2,7 +2,7 @@ impl Solution {
     pub fn split_array(nums: Vec<i32>, k: i32) -> i32 {
         let n = nums.len();
         let mut lo = *nums.iter().max().unwrap_or(&1);
-        let mut hi = nums.iter().sum();
+        let mut hi = 1e9 as i32;
         //최대가 커지면 개수가 줄고
         //최대가 작아지면 개수가 늘어남
         while lo<hi{
