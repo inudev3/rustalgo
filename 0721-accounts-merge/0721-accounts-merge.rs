@@ -47,8 +47,9 @@ fn accounts_merge(accounts: Vec<Vec<String>>) -> Vec<Vec<String>> {
             let email = &accounts[i][j];
             if !email_to_id.contains_key(email) {
                 email_to_id.insert(email.clone(), i);
-            }  
-            uf.union(i, email_to_id[email]);            
+            }  else{
+                uf.union(i, email_to_id[email]);            
+            }
             email_to_name.insert(email.clone(), accounts[i][0].clone());
         }
     }
