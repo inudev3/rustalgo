@@ -1,4 +1,4 @@
-use std::collections::HashSet;
+use std::collections::{HashSet,HashMap,VecDeque};
 impl Solution {
     pub fn valid_tree(n: i32, edges: Vec<Vec<i32>>) -> bool {
         let mut graph = vec![vec![];n as usize];
@@ -6,22 +6,22 @@ impl Solution {
             graph[edge[0] as usize].push(edge[1]);
             graph[edge[1] as usize].push(edge[0]);
         }
-        let mut seen = HashSet::new();
-        return dfs(0,-1,&mut seen, &graph) && seen.len()==n as usize
-    }
-}
-fn dfs(node:i32, parent:i32, seen:&mut HashSet<i32>, adj:&Vec<Vec<i32>>)->bool{
-    if seen.contains(&node){
-        return false
-    }
-    seen.insert(node);
-    for &next in adj[node as usize].iter(){
-        if parent==next{
-            continue
+        let mut parent = HashMap::new();
+        parent.insert(0,-1);
+        let mut queue = VecDeque::new();
+        queue.push_back(0);
+        while let Some(node) = queue.pop_front(){
+            for &next in graph[node as usize].iter(){
+                if *parent.get(&node).unwrap_or(&-1) == next{
+                    continue
+                }
+                if parent.contains_key(&next){
+                    return false
+                }
+                queue.push_back(next);
+                parent.insert(next,node);
+            }
         }
-        if !dfs(next,node, seen,adj){
-            return false
-        }
+        return parent.len()==n as usize
     }
-    return true
 }
