@@ -24,7 +24,6 @@ impl Solution {
                 }
             }
         }
-        let res:String=chars[ans[0]..=ans[1]].iter().collect();
-        res
+        String::from(&s[ans[0]..=ans[1]])
     }
 }
