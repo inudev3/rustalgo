@@ -5,10 +5,10 @@ impl Solution {
         let n = nums.len();
         let mut score = HashMap::new();
         let mut maxnum=0;
-        for &num in &nums {
-            *score.entry(num).or_insert(0) += num;
-            maxnum = max(maxnum,num);
-        }
+        nums.iter().for_each(|x| {
+            score.insert(*x, *score.get(x).unwrap_or(&0)+ *x);
+            maxnum = max(maxnum, *x);
+        });
         let mut dp = vec![0;(maxnum+1) as usize];
         dp[1] = *score.get(&1).unwrap_or(&0);
         for i in 2..maxnum as usize +1{
