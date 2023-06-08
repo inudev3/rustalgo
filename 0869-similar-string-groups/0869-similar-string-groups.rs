@@ -49,5 +49,5 @@ fn isSim(a:&[u8],b:&[u8])->bool{
             cnt+=1;
         }
     }
-    cnt<=2
+    cnt==0||cnt==2
 }
