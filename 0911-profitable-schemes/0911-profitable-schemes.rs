@@ -5,7 +5,7 @@ impl Solution {
         for (&g, &p) in g.iter().zip(p.iter()) {
             for i in (0..(n as i32-g+1).max(0) as usize).rev() {
                 let x = mask[i];
-                for j in (0..=mip).filter(|&j| (1<<j)&x>0) {
+                for j in (0..=mip).filter(|&j| (x>>j)&1>0) {
                     let jj = (j+p as usize).min(mip);
                     mask[i+g as usize]|=1<<jj;
                     dp[i+g as usize][jj]+=dp[i][j]
