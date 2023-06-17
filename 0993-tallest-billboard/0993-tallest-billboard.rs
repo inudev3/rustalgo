@@ -9,9 +9,9 @@ impl Solution {
                 let shorter = taller-diff;
                 let newTall = *newdp.get(&(diff+rod)).unwrap_or(&0);
                 newdp.insert(diff+rod,std::cmp::max(newTall,taller+rod));
-                let newdiff = (shorter-taller+rod).abs();
+                let diff2 = (shorter-taller+rod).abs();
                 let newTall2 = std::cmp::max(shorter+rod,taller);
-                newdp.insert(newdiff,std::cmp::max(newTall2,*newdp.get(&newdiff).unwrap_or(&0)));
+                newdp.insert(diff2,std::cmp::max(newTall2,*newdp.get(&diff2).unwrap_or(&0)));
             }
             dp = newdp;
         }
