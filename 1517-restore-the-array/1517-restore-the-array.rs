@@ -1,30 +1,32 @@
 const MOD:i32 = 1_000_000_007;
 impl Solution {
     pub fn number_of_arrays(s: String, k: i32) -> i32 {
-        let s = s.as_bytes();
-        let n = s.len();
-        let mut dp = vec![-1;n+1];
-        solve(0,s,&mut dp, k)
+       let n = s.len();
+       let mut dp = vec![-1;n+1];
+        solve(&mut dp, 0, k, s.as_bytes())
     }
 }
-fn solve(idx:usize,s:&[u8],memo:&mut Vec<i32>, k:i32)->i32{
+fn solve(memo:&mut Vec<i32>, idx:usize,k:i32,s:&[u8])->i32{
+    
     if memo[idx]!=-1{
         return memo[idx]
     }
     if idx==s.len(){
         return 1
     }
+
     if s[idx]==b'0'{
+        memo[idx]=0;
         return 0
     }
-    let mut cnt=0;
+    let mut ans=0;
     for i in idx..s.len(){
-        let slice = std::str::from_utf8(&s[idx..=i]).unwrap();
+        let slice = std::str::from_utf8(&s[idx..i+1]).unwrap();
         if slice.parse::<i64>().unwrap()>k as i64{
             break;
         }
-        cnt = (cnt+solve(i+1,s,memo,k))%MOD;
+        ans = (ans+solve(memo,i+1,k,s)%MOD)%MOD;
     }
-    memo[idx]=cnt;
-    cnt
+    memo[idx]=ans;
+    ans
 }
