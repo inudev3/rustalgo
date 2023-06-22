@@ -5,31 +5,30 @@ impl Solution {
         if (n as i32) < d{
             return -1
         }
-        let mut dp = vec![vec![-1;d as usize+1];n];
-         solve(0,d as usize,&job_difficulty,&mut dp)
+        //dp[i][j] = i번째 날에 j번째 job까지 수행할 경우 최소 diff
+        let mut dp = vec![vec![-1;n];d as usize+1];
+        solve(0,d as usize, &job_difficulty, &mut dp)
     }
 }
 const MAX_DIFF:i32 = 1001;
 fn solve(idx:usize, rem:usize,diff:&Vec<i32>, memo:&mut Vec<Vec<i32>>)->i32{
- 
-    if memo[idx][rem]!=-1{
-        return memo[idx][rem]
+    if memo[rem][idx]!=-1{
+        return memo[rem][idx]
     }
     if rem==1{
-        let mut res =0;
-        for j in idx..diff.len(){
-            res = std::cmp::max(res,diff[j]);
+        let mut ans=0;
+        for i in idx..diff.len(){
+            ans = std::cmp::max(ans,diff[i]);
         }
-        memo[idx][rem]=res;
-        return res
+        memo[rem][idx]=ans;
+        return ans
     }
-
-    let mut res = i32::MAX;
     let mut maxDiff=0;
+    let mut ans=i32::MAX;
     for j in idx..=diff.len()-rem{
         maxDiff = std::cmp::max(maxDiff, diff[j]);
-        res = std::cmp::min(res,maxDiff+solve(j+1,rem-1,diff,memo));
+        ans = std::cmp::min(ans, maxDiff+solve(j+1,rem-1,diff,memo));
     }
-    memo[idx][rem]=res;
-    res
+    memo[rem][idx]=ans;
+    ans
 }
