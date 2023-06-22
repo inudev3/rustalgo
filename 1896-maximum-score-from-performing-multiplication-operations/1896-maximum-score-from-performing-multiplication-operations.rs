@@ -2,22 +2,22 @@ impl Solution {
     pub fn maximum_score(nums: Vec<i32>, multipliers: Vec<i32>) -> i32 {
         let n = nums.len();
         let m = multipliers.len();
-        let mut dp = vec![vec![-1;m];m];
-        solve(&mut dp, &nums,&multipliers,0,0)
-        
+        let mut dp = vec![vec![-1;n];m];
+        //dp[i][j] = i번째 operation을 front가 j번째 인 경우에 했을 때의 최대 점수
+        solve(0,0,&mut dp, &nums,&multipliers)
     }
 }
-fn solve(memo:&mut Vec<Vec<i32>>, nums:&Vec<i32>, multipliers:&Vec<i32>, nidx:usize,midx:usize)->i32{
-    if midx>=multipliers.len(){
+fn solve(front:usize, idx:usize, memo:&mut Vec<Vec<i32>>, nums:&Vec<i32>, multipliers:&Vec<i32>)->i32{
+     if idx==multipliers.len(){
         return 0
     }
-    if memo[midx][nidx]!=-1{
-        return memo[midx][nidx]
+    if memo[idx][front]!=-1{
+        return memo[idx][front]
     }
     
-    memo[midx][nidx] = std::cmp::max(
-        solve(memo, nums,multipliers,nidx+1, midx+1)+nums[nidx]*multipliers[midx],
-        solve(memo,nums,multipliers,nidx,midx+1)+nums[nums.len()-1-(midx-nidx)]*multipliers[midx]
+    memo[idx][front]=std::cmp::max(
+        multipliers[idx]*nums[front]+solve(front+1,idx+1,memo,nums,multipliers),
+        multipliers[idx]*nums[nums.len()-1-(idx-front)]+solve(front,idx+1,memo,nums,multipliers)
     );
-    memo[midx][nidx]
+    memo[idx][front]
 }
