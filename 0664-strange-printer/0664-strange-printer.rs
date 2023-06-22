@@ -10,19 +10,19 @@ fn solve(s:&[u8], l:usize,r:usize, memo:&mut Vec<Vec<i32>>)->i32{
     if memo[l][r]!=-1{
         return memo[l][r]
     }
+    let mut found= -1;
     let mut res = s.len() as i32;
-    let mut j = -1;
     for i in l..r{
-        if s[i]!=s[r]&& j==-1{
-            j=i as i32;
+        if s[i]!=s[r]&& found==-1{
+            found=i as i32;
         }
-        if j!=-1{
-            res = std::cmp::min(res,1+solve(s,j as usize,i,memo)+solve(s,i+1,r,memo));
+        if found!=-1{
+            res = std::cmp::min(res,1+solve(s,found as usize,i,memo)+solve(s,i+1,r,memo));            
         }
     }
-    if j==-1{
+    if found==-1{
         res=0;
     }
-     memo[l][r]=res;
-     res
+    memo[l][r]=res;
+    res
 }
