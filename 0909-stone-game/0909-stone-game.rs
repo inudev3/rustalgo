@@ -1,7 +1,7 @@
 impl Solution {
     pub fn stone_game(piles: Vec<i32>) -> bool {
         let n = piles.len();
-        let mut dp = vec![vec![-1;n+2];n+2];
+        let mut dp = vec![vec![-1;n+1];n+1];
         solve(0,n-1,0,&piles,&mut dp)>0
     }
 }
