@@ -1,7 +1,7 @@
 impl Solution {
     pub fn stone_game_iii(stone_value: Vec<i32>) -> String {
         let n  = stone_value.len();
-        let mut dp = vec![i32::MIN;n];        
+        let mut dp = vec![-MAX;n];        
         let res = solve(0, &stone_value, &mut dp);
         let res = match res{
             i if i>0=> "Alice",
@@ -11,11 +11,12 @@ impl Solution {
         res.to_string()
     }
 }
+const MAX:i32 = 50000001;
 fn solve(idx:usize, stones:&Vec<i32>, memo:&mut Vec<i32>)->i32{
     if idx>= stones.len(){        
         return 0
     }
-    if memo[idx]!=i32::MIN{
+    if memo[idx]!=-MAX{
         return memo[idx]
     }
     let mut ans = 0;
