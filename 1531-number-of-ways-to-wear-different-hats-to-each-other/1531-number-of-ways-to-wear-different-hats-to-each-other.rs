@@ -16,17 +16,17 @@ impl Solution {
 const MOD:i32 = 1_000_000_007;
 fn solve(hidx:usize, mask:usize, memo:&mut Vec<Vec<i32>>, graph:&Vec<Vec<i32>>)->i32{
     if mask==memo[0].len()-1{
-        return 1
+        return 1 //모든 사람이 다씀
     }
     if hidx>40{
-        return 0
+        return 0 //모자 개수 넘어감
     }
     if memo[hidx][mask]!=-1{
         return memo[hidx][mask]
     }
-    let mut res = solve(hidx+1, mask,memo,graph);
-    for &p in &graph[hidx]{
-        if (mask>>p)&1>0{
+    let mut res = solve(hidx+1, mask,memo,graph); //현재 모자 아무도 안씀
+    for &p in &graph[hidx]{  //현재 모자 가능한 사람
+        if (mask>>p)&1>0{ //다른 모자 안써본 사람
             continue
         }
         res = (res+solve(hidx+1,mask|(1<<p), memo,graph))%MOD;
