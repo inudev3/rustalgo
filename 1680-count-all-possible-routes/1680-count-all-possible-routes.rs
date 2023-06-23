@@ -3,26 +3,24 @@ impl Solution {
         //fuel: abs(locations diff)
         let n = locations.len();
         let mut dp = vec![vec![-1;fuel as usize+1];n];
-        solve(&locations,start,finish,fuel,&mut dp)
+        solve(&locations,start as usize,finish as usize,fuel,&mut dp)
     }
 }
 const MOD:i32 = 1_000_000_007;
-fn solve(loc:&Vec<i32>,i:i32,j:i32,rem:i32,memo:&mut Vec<Vec<i32>>)->i32{
-  
+fn solve(loc:&Vec<i32>,i:usize,j:usize,rem:i32,memo:&mut Vec<Vec<i32>>)->i32{
     if rem<0{
         return 0
     }
-    if memo[i as usize][rem as usize]!=-1{
-        return memo[i as usize][rem as usize]
+    if memo[i][rem as usize]!=-1{
+        return memo[i][rem as usize]
     }
-    let mut ans= if i==j{1}else {0};
-    for k in 0..loc.len(){
-
-        let diff = (loc[k]-loc[i as usize]);
-        if i!=(k as i32){
-            ans = (ans+solve(loc, k as i32,j,rem-diff.abs(), memo)%MOD)%MOD;
+    let mut ans = if i==j{1}else{0};
+    for l in 0..loc.len(){
+        if l!=i{
+            let used = (loc[l]-loc[i]).abs();
+            ans = (ans+solve(loc,l,j,rem-used,memo))%MOD;
         }
     }
-    memo[i as usize][rem as usize]=ans;
+    memo[i][rem as usize]=ans;
     ans
 }
