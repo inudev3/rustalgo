@@ -22,20 +22,25 @@ fn solve(k: usize, n: usize, dp: &mut Vec<Vec<i32>>) -> i32 {
     let mut r = n;
     let mut temp = 0;
 
-    while l < r {
+    while l+1 < r {
         let mid = l + (r - l + 1) / 2;
         let left =solve(k - 1, mid - 1, dp);
         let right =solve(k, n - mid, dp);
-        temp = 1 + max(left, right);
 
-        if left <= right {
+
+        if left < right {
             l = mid;
-        } else {
-            r = mid - 1;
+        } else if left>right{
+            r = mid ;
+        }else{
+            dp[k][n] = 1+left;
+            return 1+left
         }
-
-        ans = min(ans, temp);
     }
+    ans = 1+ min(
+        max(solve(k-1,l-1,dp),solve(k,n-l,dp)),
+        max(solve(k-1,r-1,dp),solve(k,n-r,dp))
+    );
 
     dp[k][n] = ans;
     ans
